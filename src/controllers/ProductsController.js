@@ -59,7 +59,7 @@ class ProductsController {
         const sql = await database.query(
           `UPDATE products SET description = '${description}', color = '${color}', size = '${size}', price = '${price}' WHERE id = ${id}`
         );
-        return res.status(200).send(`Costumer with id ${id} was updated!`);
+        return res.status(200).send(`Product with id ${id} was updated!`);
       } catch (err) {
         return res.status(400);
       }
@@ -68,6 +68,20 @@ class ProductsController {
         message:
           "You should send all the fileds, please make sure you are sending description, color, size and price values.",
       });
+    }
+  }
+  async delete(req, res) {
+    const id = req.params.id;
+
+    if (!id) return res.status(400).json({ message: "Missing product id" });
+
+    try {
+      const sql = await database.query(
+        `DELETE FROM products WHERE id = ${id}`
+      );
+      return res.status(200).send(`Product with id ${id} was deleted!`);
+    } catch (err) {
+      return res.status(400);
     }
   }
 }
