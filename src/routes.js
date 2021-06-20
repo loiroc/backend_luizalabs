@@ -18,4 +18,9 @@ routes.post("/products/", ProductsController.post);
 routes.put("/products/:id", ProductsController.put);
 routes.delete("/products/:id", ProductsController.delete);
 
+// orders routes
+const OrdersController = require("./controllers/OrdersController");
+
+routes.get("/orders/", OrdersController.get);
+
 module.exports = routes;
