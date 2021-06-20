@@ -13,5 +13,6 @@ routes.delete("/costumers/:id", CostumerController.delete);
 const ProductsController = require("./controllers/ProductsController");
 
 routes.get("/products/", ProductsController.get);
+routes.get("/products/:id", ProductsController.getById);
 
 module.exports = routes;
