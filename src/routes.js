@@ -25,5 +25,6 @@ routes.get("/orders/", OrdersController.get);
 routes.get("/orders/:id", OrdersController.getById);
 routes.post("/orders/", OrdersController.post);
 routes.put("/orders/:id", OrdersController.put);
+routes.delete("/orders/:id", OrdersController.delete);
 
 module.exports = routes;

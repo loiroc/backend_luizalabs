@@ -112,6 +112,20 @@ class OrdersController {
       });
     }
   }
+  async delete(req, res) {
+    const id = req.params.id;
+
+    if (!id) return res.status(400).json({ message: "Missing order id" });
+
+    try {
+      const sql = await database.query(
+        `DELETE FROM orders WHERE order_id = ${id}`
+      );
+      return res.status(200).send(`Order with id ${id} was deleted!`);
+    } catch (err) {
+      return res.status(400);
+    }
+  }
 }
 
 module.exports = new OrdersController();
