@@ -4,7 +4,8 @@ class CostumerController {
   async get(req, res) {
     try {
       const sql = await database.query("SELECT * FROM costumers");
-      return res.send(sql[0]);
+      if(sql[0].length > 0) return res.send(sql[0]);
+      return res.status(400).json({message: "There is no costumer registred yet!"})
     } catch (err) {
       return res.status(400);
     }
@@ -60,9 +61,7 @@ class CostumerController {
         const sql = await database.query(
           `UPDATE costumers SET name = '${name}', cpf = '${cpf}', gender = '${gender}', email = '${email}' WHERE id = ${id}`
         );
-        return res
-          .status(200)
-          .send(`Costumer with id ${id} was updated!`);
+        return res.status(200).send(`Costumer with id ${id} was updated!`);
       } catch (err) {
         console.log(err);
         return res.status(400);
@@ -80,17 +79,15 @@ class CostumerController {
 
     if (!id) return res.status(400).json({ message: "Missing costumer id" });
 
-      try {
-        const sql = await database.query(
-          `DELETE FROM costumers WHERE id = ${id}`
-        );
-        return res
-          .status(200)
-          .send(`Costumer with id ${id} was deleted!`);
-      } catch (err) {
-        console.log(err);
-        return res.status(400);
-      }
+    try {
+      const sql = await database.query(
+        `DELETE FROM costumers WHERE id = ${id}`
+      );
+      return res.status(200).send(`Costumer with id ${id} was deleted!`);
+    } catch (err) {
+      console.log(err);
+      return res.status(400);
+    }
   }
 }
 
