@@ -21,6 +21,30 @@ class CostumerController {
       return res.status(400);
     }
   }
+  async post(req, res) {
+
+    console.log(req.body)
+    const name = req.body.name;
+    const cpf = req.body.cpf;
+    const gender = req.body.gender;
+    const email = req.body.email;
+
+    if(name && cpf && gender && email) {
+        try {
+            const sql = await database.query(
+              `INSERT INTO costumers (name, cpf, gender, email) VALUES ('${name}', '${cpf}', '${gender}', '${email}')`
+            );
+            return res.status(201).send(`Costumer with id ${sql[0].insertId} was created!`);
+          } catch (err) {
+              console.log(err)
+            return res.status(400);
+          }
+    } else { 
+        console.log(name, cpf, gender, email)
+        return res.status(400).json({message: "You have missing fields, please make sure you are sending name, cpf, gender and email values."})
+    }
+    
+  }
 }
 
 module.exports = new CostumerController();

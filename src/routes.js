@@ -5,5 +5,6 @@ const CostumerController = require("./controllers/CostumersController")
 
 routes.get('/costumers/', CostumerController.get)
 routes.get('/costumers/:id', CostumerController.getById);
+routes.post('/costumers/', CostumerController.post)
 
 module.exports = routes;
