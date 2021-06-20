@@ -24,5 +24,6 @@ const OrdersController = require("./controllers/OrdersController");
 routes.get("/orders/", OrdersController.get);
 routes.get("/orders/:id", OrdersController.getById);
 routes.post("/orders/", OrdersController.post);
+routes.put("/orders/:id", OrdersController.put);
 
 module.exports = routes;
