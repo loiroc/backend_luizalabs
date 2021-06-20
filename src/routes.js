@@ -1,5 +1,18 @@
 const routes = require("express").Router();
 
+// my route
+routes.get("/", (req, res) => {
+  res.json({
+    message: "Olá, é um prazer em participar deste processo seletivo",
+    author_name: "Meu nome é Lucas Coimbra",
+    author_age: "Tenho 21 anos",
+    author_current_role: "Atualmente sou Full Stack (React/Node)",
+    author_linkedin_url: "https://www.linkedin.com/in/lucascmbr/",
+    author_email: "coimbralusp@gmail.com",
+    author_phone: "+55 (19) 9 9425-3921",
+  });
+});
+
 // costumers routes
 const CostumerController = require("./controllers/CostumersController");
 
