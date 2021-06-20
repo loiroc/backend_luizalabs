@@ -14,5 +14,6 @@ const ProductsController = require("./controllers/ProductsController");
 
 routes.get("/products/", ProductsController.get);
 routes.get("/products/:id", ProductsController.getById);
+routes.post("/products/", ProductsController.post);
 
 module.exports = routes;

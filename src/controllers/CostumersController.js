@@ -4,8 +4,10 @@ class CostumerController {
   async get(req, res) {
     try {
       const sql = await database.query("SELECT * FROM costumers");
-      if(sql[0].length > 0) return res.send(sql[0]);
-      return res.status(400).json({message: "There is no costumer registred yet!"})
+      if (sql[0].length > 0) return res.send(sql[0]);
+      return res
+        .status(400)
+        .json({ message: "There is no costumer registred yet!" });
     } catch (err) {
       return res.status(400);
     }
@@ -41,7 +43,6 @@ class CostumerController {
         return res.status(400);
       }
     } else {
-      console.log(name, cpf, gender, email);
       return res.status(400).json({
         message:
           "You have missing fields, please make sure you are sending name, cpf, gender and email values.",
@@ -63,11 +64,9 @@ class CostumerController {
         );
         return res.status(200).send(`Costumer with id ${id} was updated!`);
       } catch (err) {
-        console.log(err);
         return res.status(400);
       }
     } else {
-      console.log(name, cpf, gender, email);
       return res.status(400).json({
         message:
           "You should send all the fileds, please make sure you are sending name, cpf, gender or email values.",
@@ -85,7 +84,6 @@ class CostumerController {
       );
       return res.status(200).send(`Costumer with id ${id} was deleted!`);
     } catch (err) {
-      console.log(err);
       return res.status(400);
     }
   }

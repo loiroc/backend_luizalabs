@@ -23,6 +23,30 @@ class ProductsController {
       return res.status(400);
     }
   }
+  async post(req, res) {
+    const description = req.body.description;
+    const color = req.body.color;
+    const size = req.body.size;
+    const price = req.body.price;
+
+    if (description && color && size && price) {
+      try {
+        const sql = await database.query(
+          `INSERT INTO products (description, color, size, price) VALUES ('${description}', '${color}', '${size}', '${price}')`
+        );
+        return res
+          .status(201)
+          .send(`Product with id ${sql[0].insertId} was created!`);
+      } catch (err) {
+        return res.status(400);
+      }
+    } else {
+      return res.status(400).json({
+        message:
+          "You have missing fields, please make sure you are sending description, color, size and price values.",
+      });
+    }
+  }
 }
 
 module.exports = new ProductsController();
