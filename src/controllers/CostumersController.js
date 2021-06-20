@@ -61,7 +61,7 @@ class CostumerController {
           `UPDATE costumers SET name = '${name}', cpf = '${cpf}', gender = '${gender}', email = '${email}' WHERE id = ${id}`
         );
         return res
-          .status(201)
+          .status(200)
           .send(`Costumer with id ${id} was updated!`);
       } catch (err) {
         console.log(err);
@@ -74,6 +74,23 @@ class CostumerController {
           "You should send all the fileds, please make sure you are sending name, cpf, gender or email values.",
       });
     }
+  }
+  async delete(req, res) {
+    const id = req.params.id;
+
+    if (!id) return res.status(400).json({ message: "Missing costumer id" });
+
+      try {
+        const sql = await database.query(
+          `DELETE FROM costumers WHERE id = ${id}`
+        );
+        return res
+          .status(200)
+          .send(`Costumer with id ${id} was deleted!`);
+      } catch (err) {
+        console.log(err);
+        return res.status(400);
+      }
   }
 }
 
