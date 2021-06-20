@@ -22,5 +22,6 @@ routes.delete("/products/:id", ProductsController.delete);
 const OrdersController = require("./controllers/OrdersController");
 
 routes.get("/orders/", OrdersController.get);
+routes.get("/orders/:id", OrdersController.getById);
 
 module.exports = routes;
