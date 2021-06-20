@@ -47,6 +47,29 @@ class ProductsController {
       });
     }
   }
+  async put(req, res) {
+    const id = req.params.id;
+    const description = req.body.description;
+    const color = req.body.color;
+    const size = req.body.size;
+    const price = req.body.price;
+    if (!id) return res.status(400).json({ message: "Missing product id" });
+    if (description && color && size && price) {
+      try {
+        const sql = await database.query(
+          `UPDATE products SET description = '${description}', color = '${color}', size = '${size}', price = '${price}' WHERE id = ${id}`
+        );
+        return res.status(200).send(`Costumer with id ${id} was updated!`);
+      } catch (err) {
+        return res.status(400);
+      }
+    } else {
+      return res.status(400).json({
+        message:
+          "You should send all the fileds, please make sure you are sending description, color, size and price values.",
+      });
+    }
+  }
 }
 
 module.exports = new ProductsController();

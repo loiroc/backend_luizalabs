@@ -69,7 +69,7 @@ class CostumerController {
     } else {
       return res.status(400).json({
         message:
-          "You should send all the fileds, please make sure you are sending name, cpf, gender or email values.",
+          "You should send all the fileds, please make sure you are sending name, cpf, gender and email values.",
       });
     }
   }
