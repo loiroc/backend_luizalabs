@@ -40,4 +40,6 @@ routes.post("/orders/", OrdersController.post);
 routes.put("/orders/:id", OrdersController.put);
 routes.delete("/orders/:id", OrdersController.delete);
 
+routes.post("/orders/:id/sendmail", OrdersController.sendmail)
+
 module.exports = routes;

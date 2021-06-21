@@ -1,5 +1,6 @@
 const database = require("../config/database");
 const moment = require("moment");
+const nodemailer = require('nodemailer');
 
 class OrdersController {
   async get(req, res) {
@@ -127,6 +128,86 @@ class OrdersController {
     } catch (err) {
       return res.status(400);
     }
+  }
+  async sendmail(req, res) {
+    const id = req.params.id;
+    const email = req.body.email;
+
+    if (!id) return res.status(400).json({ message: "Missing order id" });
+    if (!email) return res.status(400).json({ message: "Missing recipient email" });
+
+      const order_data = await database.query(
+        `SELECT * FROM orders WHERE order_id = ${id}`
+      );
+
+      if (order_data[0].length <= 0) return res.status(400).json({message: "Order does not exist"})
+
+      const costumer_data = await database.query(
+        `SELECT * FROM costumers WHERE id = ${order_data[0][0].costumer_id}`
+      );
+
+      const product_data = await database.query(
+        `SELECT * FROM products WHERE id = ${order_data[0][0].product_id}`
+      );
+
+      const order_id = order_data[0][0].order_id
+      const costumer_name = costumer_data[0][0].name
+      const costumer_cpf = costumer_data[0][0].cpf
+      const costumer_gender = costumer_data[0][0].gender
+      const costumer_email = costumer_data[0][0].email
+      const product_description = product_data[0][0].description
+      const product_quantity = order_data[0][0].product_quantity
+      const product_price = product_data[0][0].price
+      const product_total = product_price * product_quantity
+
+    const output = `
+    <h3>Pedido Nº ${order_id}</h3>
+    <p>Dados do Cliente:</p>
+    <ul>  
+      <li>Cliente: ${costumer_name}</li>
+      <li>CPF: ${costumer_cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4")}</li>
+      <li>Sexo: ${costumer_gender === "M" ? "Masculino" : "Feminino"}</li>
+      <li>E-mail: ${costumer_email}</li>
+    </ul>
+    <p>Dados do Pedido:</p>
+    <ul>  
+      <li>Produto: ${product_description}</li>
+      <li>Quantidade: ${product_quantity}</li>
+      <li>Preço Unitário: R$ ${product_price}</li>
+      <li>Preço Total: R$ ${product_total}</li>
+    </ul>
+    <h3>Total do Pedido: R$ ${product_total}</h3>
+  `;
+
+  let transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+        user: 'testedesenvolvedor01', // generated ethereal user
+        pass: 'dev01teste'  // generated ethereal password
+    },
+    tls:{
+      rejectUnauthorized:false
+    }
+  });
+
+  let mailOptions = {
+      from: '"Luizalabs" <contato@luizalabs.com>', // sender address
+      to: `${email}`, // list of receivers
+      subject: `Pedido de Venda Nº ${order_id}`, // Subject line
+      text: 'Pedido de Venda', // plain text body
+      html: output // html body
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+          return res.status(400).json({message: "Something went wrong"});
+      }
+
+      res.status(200).json({message: `The order with id ${order_id} has been sent to ${email}`})
+  });
+
   }
 }
 
