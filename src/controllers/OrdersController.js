@@ -212,15 +212,12 @@ class OrdersController {
         return res.status(400).json({ message: "Something went wrong" });
       }
 
-      res
-        .status(200)
-        .json({
-          message: `The order with id ${order_id} has been sent to ${email}`,
-        });
+      res.status(200).json({
+        message: `The order with id ${order_id} has been sent to ${email}`,
+      });
     });
   }
   async report(req, res) {
-
     const id = req.params.id;
 
     if (!id) return res.status(400).json({ message: "Missing order id" });
@@ -253,7 +250,9 @@ class OrdersController {
     const content = `
     <h1>Pedido Nº ${order_id}</h1>
     <h3>Dados do Cliente:</h3>
-    <p>Cliente: ${costumer_name} - Sexo: ${costumer_gender === "M" ? "Masculino" : "Feminino"} - CPF: ${costumer_cpf.replace(
+    <p>Cliente: ${costumer_name} - Sexo: ${
+      costumer_gender === "M" ? "Masculino" : "Feminino"
+    } - CPF: ${costumer_cpf.replace(
       /(\d{3})(\d{3})(\d{3})(\d{2})/,
       "$1.$2.$3-$4"
     )}</p>
