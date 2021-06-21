@@ -19,6 +19,9 @@ mysql -u root -p banco_criado < backup.sql
 
 1.0.0
 
+### Collection
+- https://documenter.getpostman.com/view/16312782/TzeZESFU
+
 ## Install Dependencies
 
 ```bash
