@@ -269,7 +269,7 @@ class OrdersController {
 
     pdf.create(content, {}).toFile("./report.pdf", (err) => {
       if (err) {
-        console.log(err);
+        res.status(400).send({message: "Something went wrong"});
       } else {
         fs.readFile("report.pdf", (err, data) => {
           res.contentType("application/pdf");
