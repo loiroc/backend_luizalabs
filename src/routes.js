@@ -9,7 +9,6 @@ routes.get("/", (req, res) => {
     author_current_role: "Atualmente sou Full Stack (React/Node)",
     author_linkedin_url: "https://www.linkedin.com/in/lucascmbr/",
     author_email: "coimbralusp@gmail.com",
-    author_phone: "+55 (19) 9 9425-3921",
   });
 });
 
